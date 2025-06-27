@@ -62,10 +62,11 @@ if (contactForm) {
             return;
         }
         
-        // Phone validation
-        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-        if (!phoneRegex.test(data.phone.replace(/\D/g, ''))) {
-            showNotification('Please enter a valid phone number', 'error');
+        // Phone validation - Updated for Philippine phone numbers
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{7,15}$/;
+        const cleanPhone = data.phone.replace(/\D/g, '');
+        if (cleanPhone.length < 7 || cleanPhone.length > 15) {
+            showNotification('Please enter a valid phone number (7-15 digits)', 'error');
             return;
         }
         
