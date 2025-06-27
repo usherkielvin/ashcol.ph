@@ -65,11 +65,11 @@ function renderForm() {
         <div class="form-group">
           <select id="custServiceType" name="custServiceType" required>
             <option value="">Select Service Type</option>
-            <option value="Installation">Installation</option>
-            <option value="Repair">Repair</option>
-            <option value="Maintenance">Maintenance</option>
-            <option value="Emergency">Emergency Service</option>
-            <option value="Other">Other</option>
+            <option value="installation">Installation</option>
+            <option value="repair">Repair</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="consultation">Consultation</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <div class="form-group">

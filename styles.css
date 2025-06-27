@@ -614,7 +614,6 @@ a:not(.btn):not(.contact-option):not(.inquire-btn):visited {
 .social-links a {
     width: 40px;
     height: 40px;
-    background: var(--primary-green);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -624,11 +623,17 @@ a:not(.btn):not(.contact-option):not(.inquire-btn):visited {
     transition: all 0.3s ease;
 }
 
-.social-links a:hover {
-    background: var(--white);
-    color: var(--primary-green);
-    border: 2px solid var(--primary-green);
-}
+.social-links a.facebook { background: #1877f3; }
+.social-links a.twitter { background: #1da1f2; }
+.social-links a.instagram { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+.social-links a.linkedin { background: #0077b5; }
+
+.social-links a.facebook:hover { color: #1877f3; border: 2px solid #1877f3; background: #fff; }
+.social-links a.twitter:hover { color: #1da1f2; border: 2px solid #1da1f2; background: #fff; }
+.social-links a.instagram:hover { color: #d6249f; border: 2px solid #d6249f; background: #fff; }
+.social-links a.linkedin:hover { color: #0077b5; border: 2px solid #0077b5; background: #fff; }
+
+.social-links a { color: #fff; }
 
 .footer-bottom {
     border-top: 1px solid var(--primary-green);
