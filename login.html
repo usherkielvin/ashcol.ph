@@ -260,7 +260,6 @@
 
         <div class="login-links">
             <a href="request.html">Request Service</a> |
-            <a href="queue.html">Track My Request</a> |
             <a href="index.html">Back to Home</a>
         </div>
     </div>
@@ -353,19 +352,29 @@
             successDiv.style.display = 'block';
         }
 
-        // Check if user is already logged in
+        // Check if user is already logged in and show logout option
         document.addEventListener('DOMContentLoaded', function() {
             const loggedInUser = localStorage.getItem('loggedInUser');
             if (loggedInUser) {
                 const user = JSON.parse(loggedInUser);
-                showSuccess(`Welcome back, ${user.name}! Redirecting...`);
-                setTimeout(() => {
-                    if (user.role === 'staff') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'queue.html';
-                    }
-                }, 1500);
+                showSuccess(`Welcome back, ${user.name}! You are already logged in.`);
+                
+                // Add logout button
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Logout';
+                logoutBtn.className = 'login-btn';
+                logoutBtn.style.marginTop = '1rem';
+                logoutBtn.style.backgroundColor = '#dc3545';
+                logoutBtn.onclick = function() {
+                    localStorage.removeItem('loggedInUser');
+                    location.reload();
+                };
+                
+                // Hide the login form
+                document.getElementById('loginForm').style.display = 'none';
+                
+                // Add logout button to the container
+                document.querySelector('.login-container').appendChild(logoutBtn);
             }
         });
     </script>
