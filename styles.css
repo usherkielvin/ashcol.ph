@@ -200,20 +200,21 @@ a:not(.btn):not(.contact-option):not(.inquire-btn):visited {
 }
 
 .btn-primary:hover {
-    background: var(--white);
-    color: var(--primary-green);
-    border: 2px solid var(--primary-green);
+    background: #2d8f3a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(57, 181, 74, 0.3);
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--primary-green);
-    border: 2px solid var(--primary-green);
+    color: var(--white);
+    border: 2px solid var(--white);
 }
 
 .btn-secondary:hover {
-    background: var(--primary-green);
-    color: var(--white);
+    background: var(--white);
+    color: var(--black);
+    transform: translateY(-2px);
 }
 
 .hero-image {
@@ -772,4 +773,184 @@ a:not(.btn):not(.contact-option):not(.inquire-btn):visited {
     letter-spacing: 1px;
     vertical-align: middle;
     display: inline-block;
+}
+
+/* Ticket Confirmation Styles */
+.ticket-confirmation {
+    display: none;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--gray-bg);
+    border-radius: 12px;
+    margin: 2rem auto;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-confirmation h2 {
+    color: var(--primary-green);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.ticket-confirmation p {
+    color: var(--gray-text);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.ticket-number {
+    background: var(--white);
+    border: 2px solid var(--primary-green);
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    margin: 1.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    display: inline-block;
+    min-width: 200px;
+}
+
+.confirmation-buttons {
+    margin-top: 2rem;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: #39B54A !important;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid #39B54A !important;
+    box-shadow: 0 2px 8px rgba(57, 181, 74, 0.2);
+}
+
+.back-btn:hover {
+    background: #2d8f3a !important;
+    border-color: #2d8f3a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(57, 181, 74, 0.4);
+    color: #FFFFFF !important;
+    text-decoration: none;
+}
+
+/* Request Form Styles */
+.request-container {
+    max-width: 800px;
+    margin: 100px auto 2rem;
+    padding: 0 20px;
+}
+
+.request-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.request-header h1 {
+    color: var(--primary-green);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.request-header p {
+    color: var(--gray-text);
+    font-size: 1.1rem;
+}
+
+.request-form {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(57, 181, 74, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background: #2d8f3a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(57, 181, 74, 0.3);
+}
+
+/* Responsive Design for Request Form */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .request-header h1 {
+        font-size: 2rem;
+    }
+    
+    .ticket-confirmation {
+        padding: 2rem 1rem;
+        margin: 1rem;
+    }
+    
+    .back-btn {
+        display: block;
+        margin: 0 auto;
+        max-width: 250px;
+        text-align: center;
+    }
 } 
