@@ -10,7 +10,7 @@ function renderLogin(error = '') {
       ${error ? `<div class='error-msg'>${error}</div>` : ''}
       <div style="position:relative;display:flex;align-items:center;">
         <input type="password" id="employeePass" placeholder="Enter employee password" required style="flex:1;padding-right:3rem;" />
-        <button type="button" onclick="toggleEmployeePassword()" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#666;cursor:pointer;padding:0.25rem;border-radius:4px;transition:color 0.3s ease;" onmouseover="this.style.color='#39B54A'" onmouseout="this.style.color='#666'">
+        <button type="button" onclick="toggleEmployeePassword()" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#666;cursor:pointer;padding:0.25rem;border-radius:4px;transition:color 0.3s ease;display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;" onmouseover="this.style.color='#39B54A'" onmouseout="this.style.color='#666'">
           <i class="fas fa-eye" id="employeePass-icon"></i>
         </button>
       </div>
