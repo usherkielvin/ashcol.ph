@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track My Request - Ashcol Airconditioning Corporation</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Track your service request status and view your ticket information. Real-time updates for your service requests.">
+    <meta name="keywords" content="track request, ticket status, AC service tracking">
+    <meta name="author" content="Ashcol Airconditioning Corporation">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="ash.JPG">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .queue-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .queue-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .queue-header h1 {
+            color: #39B54A;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .queue-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .queue-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #39B54A;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #39B54A;
+        }
+        
+        .queue-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background: #39B54A;
+            color: white;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            font-weight: 600;
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e1e5e9;
+            align-items: center;
+        }
+        
+        .table-row:hover {
+            background: #f8f9fa;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-in-progress {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-emergency {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .ticket-number {
+            font-weight: 700;
+            color: #39B54A;
+        }
+        
+        .customer-name {
+            font-weight: 600;
+        }
+        
+        .service-type {
+            color: #666;
+        }
+        
+        .date-time {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .urgency-high {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .urgency-emergency {
+            color: #dc3545;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        
+        .urgency-normal {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .refresh-btn {
+            background: #39B54A;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: #2d8f3a;
+        }
+        
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e1e5e9;
+        }
+        
+        .auto-refresh input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        
+        .no-tickets {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .no-tickets i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .no-tickets h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+            margin-left: 1rem;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        
+        .user-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-info .user-details {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-info .user-details i {
+            color: #39B54A;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .table-header {
+                display: none;
+            }
+            
+            .table-row {
+                border: 1px solid #e1e5e9;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+            
+            .queue-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="ash.JPG" alt="Ashcol Airconditioning Corporation Logo" class="logo-img">
+                <span class="logo-text">Ashcol Airconditioning</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="AshcolHome.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="request.html" class="nav-link">Request Service</a>
+                </li>
+                <li class="nav-item">
+                    <a href="queue.html" class="nav-link">Track My Request</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="queue-container">
+        <div class="queue-header">
+            <h1><i class="fas fa-ticket-alt"></i> <span id="pageTitle">Track My Request</span></h1>
+            <p id="pageDescription">View your service request status and track your ticket</p>
+        </div>
+
+        <div id="userInfo" class="user-info" style="display: none;">
+            <div class="user-details">
+                <i class="fas fa-user"></i>
+                <span id="userName"></span>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <div class="queue-stats" id="queueStats">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <div class="filters" id="filtersSection">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="statusFilter">Filter by Status</label>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="serviceFilter">Filter by Service</label>
+                    <select id="serviceFilter">
+                        <option value="">All Services</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Repair">Repair</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Inspection">Inspection</option>
+                        <option value="Upgrade">Upgrade</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Filter by Date</label>
+                    <input type="date" id="dateFilter">
+                </div>
+                <div class="filter-group">
+                    <label for="searchFilter">Search by Name/Ticket</label>
+                    <input type="text" id="searchFilter" placeholder="Search...">
+                </div>
+            </div>
+            <div class="auto-refresh">
+                <input type="checkbox" id="autoRefresh" checked>
+                <label for="autoRefresh">Auto-refresh every 30 seconds</label>
+                <button class="refresh-btn" onclick="loadQueue()">
+                    <i class="fas fa-sync-alt"></i> Refresh Now
+                </button>
+            </div>
+        </div>
+
+        <div class="queue-table">
+            <div class="table-header">
+                <div>Ticket #</div>
+                <div>Customer</div>
+                <div>Service Type</div>
+                <div>Status</div>
+                <div>Date & Time</div>
+                <div>Urgency</div>
+                <div>Actions</div>
+            </div>
+            <div id="queueTableBody">
+                <!-- Queue items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let autoRefreshInterval;
+        let allTickets = [];
+        let currentUser = null;
+        let isCustomer = false;
+
+        // Check authentication and user role
+        function checkAuth() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                isCustomer = currentUser.role === 'customer';
+                
+                // Update page title and description based on user role
+                const pageTitle = document.getElementById('pageTitle');
+                const pageDescription = document.getElementById('pageDescription');
+                const userInfo = document.getElementById('userInfo');
+                const userName = document.getElementById('userName');
+                
+                if (isCustomer) {
+                    pageTitle.textContent = 'Track My Request';
+                    pageDescription.textContent = 'View your service request status and track your ticket';
+                    userInfo.style.display = 'flex';
+                    userName.textContent = `Welcome, ${currentUser.name}`;
+                } else {
+                    pageTitle.textContent = 'Service Queue';
+                    pageDescription.textContent = 'View all service requests and manage the queue';
+                    userInfo.style.display = 'flex';
+                    userName.textContent = `Welcome, ${currentUser.name} (Staff)`;
+                }
+                
+                return true;
+            } else {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html?redirect=queue';
+                return false;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        }
+
+        // Load queue data
+        function loadQueue() {
+            allTickets = JSON.parse(localStorage.getItem('serviceTickets') || '[]');
+            
+            // Filter tickets based on user role
+            if (isCustomer) {
+                // For customers, only show their own requests
+                // We'll match by customer name (in a real app, you'd use a unique customer ID)
+                allTickets = allTickets.filter(ticket => 
+                    ticket.customerName.toLowerCase() === currentUser.name.toLowerCase()
+                );
+            }
+            // For staff/admin, show all tickets (no filtering)
+            
+            updateStats();
+            renderQueue();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const stats = {
+                total: allTickets.length,
+                pending: allTickets.filter(t => t.status === 'Pending').length,
+                inProgress: allTickets.filter(t => t.status === 'In Progress').length,
+                completed: allTickets.filter(t => t.status === 'Completed').length
+            };
+
+            document.getElementById('queueStats').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total}</div>
+                    <div class="stat-label">${isCustomer ? 'My Requests' : 'Total Tickets'}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.pending}</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.inProgress}</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.completed}</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            `;
+        }
+
+        // Render queue table
+        function renderQueue() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const serviceFilter = document.getElementById('serviceFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+
+            let filteredTickets = allTickets.filter(ticket => {
+                const matchesStatus = !statusFilter || ticket.status === statusFilter;
+                const matchesService = !serviceFilter || ticket.serviceType === serviceFilter;
+                const matchesDate = !dateFilter || ticket.preferredDate === dateFilter;
+                const matchesSearch = !searchFilter || 
+                    ticket.customerName.toLowerCase().includes(searchFilter) ||
+                    ticket.ticketNumber.toLowerCase().includes(searchFilter);
+
+                return matchesStatus && matchesService && matchesDate && matchesSearch;
+            });
+
+            // Sort by timestamp (newest first)
+            filteredTickets.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            const tableBody = document.getElementById('queueTableBody');
+            
+            if (filteredTickets.length === 0) {
+                const noTicketsMessage = isCustomer ? 
+                    'You haven\'t submitted any service requests yet.' : 
+                    'No service requests match your current filters.';
+                    
+                tableBody.innerHTML = `
+                    <div class="no-tickets">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No tickets found</h3>
+                        <p>${noTicketsMessage}</p>
+                        ${isCustomer ? '<a href="request.html" class="refresh-btn" style="text-decoration:none;margin-top:1rem;display:inline-block;">Submit New Request</a>' : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = filteredTickets.map(ticket => `
+                <div class="table-row">
+                    <div class="ticket-number">${ticket.ticketNumber}</div>
+                    <div class="customer-name">${ticket.customerName}</div>
+                    <div class="service-type">${ticket.serviceType}</div>
+                    <div class="status-badge status-${ticket.status.toLowerCase().replace(' ', '-')}">${ticket.status}</div>
+                    <div class="date-time">
+                        <div>${formatDate(ticket.preferredDate)}</div>
+                        <div>${ticket.preferredTime}</div>
+                    </div>
+                    <div class="urgency-${ticket.urgency.toLowerCase()}">${ticket.urgency}</div>
+                    <div>
+                        <button onclick="viewTicketDetails('${ticket.ticketNumber}')" class="refresh-btn">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+        }
+
+        // View ticket details
+        function viewTicketDetails(ticketNumber) {
+            const ticket = allTickets.find(t => t.ticketNumber === ticketNumber);
+            if (ticket) {
+                alert(`
+Ticket Details:
+Ticket Number: ${ticket.ticketNumber}
+Customer: ${ticket.customerName}
+Contact: ${ticket.contactNumber}
+Email: ${ticket.email || 'N/A'}
+Service Type: ${ticket.serviceType}
+Status: ${ticket.status}
+Preferred Date: ${ticket.preferredDate}
+Preferred Time: ${ticket.preferredTime}
+Address: ${ticket.address}
+Description: ${ticket.description}
+Urgency: ${ticket.urgency}
+                `);
+            }
+        }
+
+        // Auto-refresh functionality
+        function setupAutoRefresh() {
+            const autoRefreshCheckbox = document.getElementById('autoRefresh');
+            
+            if (autoRefreshCheckbox.checked) {
+                autoRefreshInterval = setInterval(loadQueue, 30000); // 30 seconds
+            } else {
+                clearInterval(autoRefreshInterval);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('statusFilter').addEventListener('change', renderQueue);
+        document.getElementById('serviceFilter').addEventListener('change', renderQueue);
+        document.getElementById('dateFilter').addEventListener('change', renderQueue);
+        document.getElementById('searchFilter').addEventListener('input', renderQueue);
+        document.getElementById('autoRefresh').addEventListener('change', setupAutoRefresh);
+
+        // Initialize
+        if (checkAuth()) {
+            loadQueue();
+            setupAutoRefresh();
+        }
+
+        // Clean up interval on page unload
+        window.addEventListener('beforeunload', () => {
+            clearInterval(autoRefreshInterval);
+        });
+    </script>
+</body>
+</html> 
